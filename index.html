@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tree</title>
+	<style>
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+	</style>
+</head>
+<body>
+
+<div id="tree-container"></div>
+
+<script>
+	const data = {
+		"services": [
+			{
+				"id": 1,
+				"head": null,
+				"name": "Проф.осмотр",
+				"node": 0,
+				"price": 100.0,
+				"sorthead": 20
+			},
+			{
+				"id": 2,
+				"head": null,
+				"name": "Хирургия",
+				"node": 1,
+				"price": 0.0,
+				"sorthead": 10
+			},
+			{
+				"id": 3,
+				"head": 2,
+				"name": "Удаление зубов",
+				"node": 1,
+				"price": 0.0,
+				"sorthead": 10
+			},
+			{
+				"id": 4,
+				"head": 3,
+				"name": "Удаление зуба",
+				"node": 0,
+				"price": 800.0,
+				"sorthead": 10
+			},
+			{
+				"id": 5,
+				"head": 3,
+				"name": "Удаление 8ого зуба",
+				"node": 0,
+				"price": 1000.0,
+				"sorthead": 30
+			},
+			{
+				"id": 6,
+				"head": 3,
+				"name": "Удаление осколка зуба",
+				"node": 0,
+				"price": 2000.0,
+				"sorthead": 20
+			},
+			{
+				"id": 7,
+				"head": 2,
+				"name": "Хирургические вмешательство",
+				"node": 0,
+				"price": 200.0,
+				"sorthead": 10
+			},
+			{
+				"id": 8,
+				"head": 2,
+				"name": "Имплантация зубов",
+				"node": 1,
+				"price": 0.0,
+				"sorthead": 20
+			},
+			{
+				"id": 9,
+				"head": 8,
+				"name": "Коронка",
+				"node": 0,
+				"price": 3000.0,
+				"sorthead": 10
+			},
+			{
+				"id": 10,
+				"head": 8,
+				"name": "Слепок челюсти",
+				"node": 0,
+				"price": 500.0,
+				"sorthead": 20
+			}
+		]
+	};
+
+	function buildTree(nodeId, parentNode, treeData) {
+		const ul = document.createElement("ul");
+		parentNode.appendChild(ul);
+
+		treeData
+			.filter(service => service.head === nodeId)
+			.sort((a, b) => a.sorthead - b.sorthead)
+			.forEach(service => {
+				const li = document.createElement("li");
+				li.textContent = `${service.name} - ${service.price}р`;
+				ul.appendChild(li);
+
+				buildTree(service.id, li, treeData);
+
+			});
+	}
+
+	document.addEventListener("DOMContentLoaded", () => {
+		const treeContainer = document.getElementById("tree-container");
+		buildTree(null, treeContainer, data.services);
+	});
+</script>
+
+</body>
+</html>
